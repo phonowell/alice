@@ -1,4 +1,4 @@
-import $exec_ from 'fire-keeper/exec_'
+import $exec from 'fire-keeper/exec'
 import $os from 'fire-keeper/os'
 
 // variable
@@ -24,7 +24,7 @@ const main = async () => {
   if (os !== 'macos' && os !== 'windows')
     throw new Error(`invalid os '${os}'`)
 
-  await $exec_(mapCmd[os], {
+  await $exec(mapCmd[os], {
     ignoreError: true,
   })
 }

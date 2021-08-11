@@ -1,16 +1,16 @@
-import $copy_ from 'fire-keeper/copy_'
-import $exec_ from 'fire-keeper/exec_'
+import $copy from 'fire-keeper/copy'
+import $exec from 'fire-keeper/exec'
 import $getBasename from 'fire-keeper/getBasename'
 import $getName from 'fire-keeper/getName'
 import $info from 'fire-keeper/info'
-import $isExisted_ from 'fire-keeper/isExisted_'
+import $isExisted from 'fire-keeper/isExisted'
 import $os from 'fire-keeper/os'
-import $read_ from 'fire-keeper/read_'
-import $remove_ from 'fire-keeper/remove_'
-import $rename_ from 'fire-keeper/rename_'
-import $source_ from 'fire-keeper/source_'
+import $read from 'fire-keeper/read'
+import $remove from 'fire-keeper/remove'
+import $rename from 'fire-keeper/rename'
+import $source from 'fire-keeper/source'
 import $wrapList from 'fire-keeper/wrapList'
-import $write_ from 'fire-keeper/write_'
+import $write from 'fire-keeper/write'
 
 // interface
 
@@ -56,9 +56,9 @@ const checkUnicode = async (): Promise<boolean> => {
 
   const sub = async (
     source: string,
-  ) => !~(await $read_<string>(source)).search(/我/u)
+  ) => !~(await $read<string>(source)).search(/我/u)
 
-  const listSource = await $source_(`${path.storage}/*.txt`)
+  const listSource = await $source(`${path.storage}/*.txt`)
   const listResult = await Promise.all(listSource.map(sub))
   const listOutput: string[] = []
   listResult.forEach((result, i) => {
@@ -71,7 +71,7 @@ const checkUnicode = async (): Promise<boolean> => {
   return listOutput.length === 0
 }
 
-const clean = (): Promise<void> => $remove_(path.temp)
+const clean = (): Promise<void> => $remove(path.temp)
 
 const formatPathWindows = (
   input: string,
@@ -95,7 +95,7 @@ const html2mobi = async (
     '-dont_append_source',
   ].join(' ')
 
-  await $exec_(cmd)
+  await $exec(cmd)
 }
 
 const image2html = async (
@@ -105,13 +105,13 @@ const image2html = async (
   const { basename } = $getName(source)
   const target = `${path.temp}/${basename}.html`
 
-  const listImage = await $source_(`${source}/*.jpg`)
-  const listResult = (await Promise.all(listImage.map(src => $read_<Buffer>(src))))
+  const listImage = await $source(`${source}/*.jpg`)
+  const listResult = (await Promise.all(listImage.map(src => $read<Buffer>(src))))
     .map(buffer => buffer.toString('base64'))
     .map((data, i) => `<p><img alt='${1 + i}.jpg' src='data:image/jpeg;base64,${data}'></p>`)
 
   const content = html.replace('{{content}}', listResult.join('\n'))
-  await $write_(target, content)
+  await $write(target, content)
 }
 
 const isExistedOnKindle = async (
@@ -119,7 +119,7 @@ const isExistedOnKindle = async (
 ): Promise<boolean> => {
 
   const { basename } = $getName(source)
-  return $isExisted_(`${path.document}/${basename}.mobi`)
+  return $isExisted(`${path.document}/${basename}.mobi`)
 }
 
 const main = async (): Promise<void> => {
@@ -148,8 +148,8 @@ const main = async (): Promise<void> => {
     await moveToKindle(source)
   }
 
-  if (!isWindows) await Promise.all((await $source_([`${path.storage}/*`, `!${path.storage}/*.txt`])).map(subManga))
-  await Promise.all((await $source_(`${path.storage}/*.txt`)).map(subNovel))
+  if (!isWindows) await Promise.all((await $source([`${path.storage}/*`, `!${path.storage}/*.txt`])).map(subManga))
+  await Promise.all((await $source(`${path.storage}/*.txt`)).map(subNovel))
   await clean()
 }
 
@@ -157,7 +157,7 @@ const moveToKindle = async (
   source: string,
 ): Promise<void> => {
   const { basename } = $getName(source)
-  await $copy_(`${path.temp}/${basename}.mobi`, path.document)
+  await $copy(`${path.temp}/${basename}.mobi`, path.document)
 }
 
 const rename = (
@@ -189,10 +189,10 @@ const renameManga = async () => {
       : `mv "${source}" "${_source}"`
 
     console.log(line)
-    await $exec_(line)
+    await $exec(line)
   }
 
-  await Promise.all((await $source_([`${path.storage}/*`, `!${path.storage}/*.txt`])).map(sub))
+  await Promise.all((await $source([`${path.storage}/*`, `!${path.storage}/*.txt`])).map(sub))
 }
 
 const renameNovel = async () => {
@@ -204,10 +204,10 @@ const renameNovel = async () => {
     const _basename = rename(basename)
     if (_basename === basename) return
 
-    await $rename_(source, { basename: _basename })
+    await $rename(source, { basename: _basename })
   }
 
-  await Promise.all((await $source_(`${path.storage}/*.txt`)).map(sub))
+  await Promise.all((await $source(`${path.storage}/*.txt`)).map(sub))
 }
 
 const txt2html = async (
@@ -218,7 +218,7 @@ const txt2html = async (
   const target = `${path.temp}/${basename}.html`
 
   const listContent = (
-    await $read_<string>(source)
+    await $read<string>(source)
   ).split('\n')
 
   const listResult: string[] = []
@@ -229,17 +229,17 @@ const txt2html = async (
   }
 
   const content = html.replace('{{content}}', listResult.join('\n'))
-  await $write_(target, content)
+  await $write(target, content)
 }
 
 const validateEnvironment = async (): Promise<boolean> => {
 
-  if (!await $isExisted_(path.kindlegen)) {
+  if (!await $isExisted(path.kindlegen)) {
     $info("found no 'kindlegen', run 'brew cask install kindlegen' to install it")
     return false
   }
 
-  if (!await $isExisted_(path.document)) {
+  if (!await $isExisted(path.document)) {
     $info(`found no '${path.document}', kindle must be connected`)
     return false
   }

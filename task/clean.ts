@@ -1,7 +1,7 @@
 import $info from 'fire-keeper/info'
 import $os from 'fire-keeper/os'
-import $remove_ from 'fire-keeper/remove_'
-import $source_ from 'fire-keeper/source_'
+import $remove from 'fire-keeper/remove'
+import $source from 'fire-keeper/source'
 
 // function
 
@@ -12,13 +12,13 @@ const main = async () => {
     return
   }
 
-  const listSource = await $source_([
+  const listSource = await $source([
     '~/OneDrive/**/.DS_Store',
     '~/Project/**/.DS_Store',
   ])
 
   if (!listSource.length) return
-  await $remove_(listSource)
+  await $remove(listSource)
 }
 
 // export

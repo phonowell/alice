@@ -1,5 +1,5 @@
 import $os from 'fire-keeper/os'
-import $zip_ from 'fire-keeper/zip_'
+import $zip from 'fire-keeper/zip'
 
 // function
 
@@ -14,7 +14,7 @@ const main = async () => {
     windows: 'E:/OneDrive',
   }[os]
 
-  await $zip_(`${path}/**/*`, `${path}/..`, 'OneDrive.zip')
+  await $zip(`${path}/**/*`, `${path}/..`, 'OneDrive.zip')
 }
 
 // export

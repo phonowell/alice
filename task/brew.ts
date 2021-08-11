@@ -1,4 +1,4 @@
-import $exec_ from 'fire-keeper/exec_'
+import $exec from 'fire-keeper/exec'
 import $info from 'fire-keeper/info'
 import $os from 'fire-keeper/os'
 
@@ -11,7 +11,7 @@ const main = async () => {
     return
   }
 
-  await $exec_([
+  await $exec([
     'brew update',
     'brew upgrade',
     'brew upgrade --cask',

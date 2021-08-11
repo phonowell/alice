@@ -1,8 +1,8 @@
 import $i from 'fire-keeper/i'
 import $info from 'fire-keeper/info'
-import $prompt_ from 'fire-keeper/prompt_'
-import $read_ from 'fire-keeper/read_'
-import $say_ from 'fire-keeper/say_'
+import $prompt from 'fire-keeper/prompt'
+import $read from 'fire-keeper/read'
+import $say from 'fire-keeper/say'
 import kleur from 'kleur'
 
 // variable
@@ -23,7 +23,7 @@ const ask = async (
   seed = Math.floor(Math.random() * 2)
   char = char[seed]
 
-  const value = await $prompt_({
+  const value = await $prompt({
     default: 'exit',
     message: char,
     type: 'text',
@@ -39,9 +39,7 @@ const ask = async (
   )
 
   $info().pause()
-  await $say_(char, {
-    lang: 'ja',
-  })
+  await $say(char, { lang: 'ja' })
   $info().resume()
 
   // loop
@@ -52,7 +50,7 @@ const main = async (): Promise<void> => {
   await ask(await load())
 }
 
-const load = async (): Promise<string[]> => await $read_<string[]>(path)
+const load = async (): Promise<string[]> => await $read<string[]>(path)
 
 // export
 export default main
