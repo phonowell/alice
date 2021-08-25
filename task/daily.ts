@@ -24,9 +24,8 @@ const main = async () => {
   if (os !== 'macos' && os !== 'windows')
     throw new Error(`invalid os '${os}'`)
 
-  await $exec(mapCmd[os], {
-    ignoreError: true,
-  })
+  for (const cmd of mapCmd[os])
+    await $exec(cmd, { ignoreError: true })
 }
 
 // export

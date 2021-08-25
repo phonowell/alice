@@ -4,19 +4,19 @@
     "url": "https://github.com/phonowell/alice/issues"
   },
   "dependencies": {
-    "fire-keeper": "^0.0.192",
+    "fire-keeper": "^0.0.193",
     "jimp": "^0.16.1",
     "kleur": "^4.1.4",
-    "nanoid": "^3.1.23",
-    "ts-node": "^10.2.0",
+    "nanoid": "^3.1.25",
+    "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
   },
   "description": "Alice",
   "devDependencies": {
     "@types/lodash": "^4.14.172",
-    "@types/node": "^16.4.13",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
+    "@types/node": "^16.7.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0"
   },
   "homepage": "https://github.com/phonowell/alice",
